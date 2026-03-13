@@ -1,0 +1,73 @@
+# ------------------------------
+# OS / Editor
+# ------------------------------
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ------------------------------
+# Secrets / Environment files
+# ------------------------------
+.env
+.env.*
+*.local
+!.env.example
+!.env.sample
+
+# ------------------------------
+# Node.js (client + root)
+# ------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+client/dist/
+client/dist-ssr/
+dist/
+coverage/
+*.tsbuildinfo
+
+# ------------------------------
+# Python (server)
+# ------------------------------
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+.venv/
+venv/
+env/
+ENV/
+
+# Flask / local DB artifacts
+instance/
+*.sqlite3
+*.db
+
+# ------------------------------
+# Build / packaging
+# ------------------------------
+build/
+*.egg-info/
+
+# ------------------------------
+# Sensitive key/cert files
+# ------------------------------
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
