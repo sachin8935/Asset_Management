@@ -1,0 +1,311 @@
+.container {
+  max-width: 980px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
+}
+
+.auth-shell {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.auth-panel {
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.2rem;
+  background: #f9fafb;
+}
+
+.auth-panel h1 {
+  margin-top: 0;
+}
+
+.auth-panel p {
+  margin: 0.35rem 0 0.9rem;
+  color: #4b5563;
+}
+
+.auth-panel ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: #1f2937;
+}
+
+.auth-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+  margin-bottom: 0.7rem;
+}
+
+.auth-toggle button {
+  background: #4b5563;
+}
+
+.auth-card {
+  max-width: none;
+}
+
+.auth-subtitle {
+  margin-top: -0.35rem;
+  margin-bottom: 0.8rem;
+  color: #4b5563;
+  font-size: 0.9rem;
+}
+
+.card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem;
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+form.card {
+  max-width: 420px;
+}
+
+label {
+  display: block;
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+}
+
+input,
+select,
+button {
+  width: 100%;
+  margin-top: 0.35rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  font-size: 0.95rem;
+}
+
+button {
+  cursor: pointer;
+  background: #111827;
+  color: #ffffff;
+  border: none;
+}
+
+button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.topbar button {
+  width: auto;
+  min-width: 100px;
+}
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.tabs button {
+  width: auto;
+  min-width: 140px;
+  background: #374151;
+}
+
+.tabs a {
+  display: inline-block;
+  width: auto;
+  min-width: 140px;
+  text-align: center;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  color: #ffffff;
+  background: #374151;
+}
+
+.tabs .tab-active {
+  background: #111827;
+}
+
+.tabs a.active {
+  background: #111827;
+}
+
+.search-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr auto auto;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  align-items: end;
+}
+
+.search-row button {
+  width: auto;
+  min-width: 120px;
+}
+
+.asset-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.create-user-form {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  align-items: end;
+}
+
+.create-user-form button {
+  width: auto;
+  min-width: 140px;
+}
+
+.asset-form-grid button {
+  width: auto;
+  min-width: 140px;
+}
+
+.assignment-form {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr auto;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  align-items: end;
+}
+
+.assignment-form button {
+  width: auto;
+  min-width: 140px;
+}
+
+.issue-form {
+  display: grid;
+  grid-template-columns: 2fr 3fr auto;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  align-items: end;
+}
+
+.issue-form button {
+  width: auto;
+  min-width: 140px;
+}
+
+.maintenance-form {
+  display: grid;
+  grid-template-columns: 2fr 2fr 1fr 2fr 1fr auto;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+  align-items: end;
+}
+
+.maintenance-form button {
+  width: auto;
+  min-width: 140px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.stat-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 0.8rem;
+  background: #ffffff;
+}
+
+.stat-label {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #4b5563;
+}
+
+.stat-value {
+  margin: 0.35rem 0 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+.pagination-controls {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.8rem;
+}
+
+.pagination-controls span {
+  color: #4b5563;
+  font-size: 0.9rem;
+}
+
+.pagination-controls button {
+  width: auto;
+  min-width: 100px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.7rem 0.4rem;
+  vertical-align: middle;
+}
+
+td select {
+  width: 170px;
+}
+
+td button {
+  width: auto;
+  min-width: 100px;
+  margin-right: 0.4rem;
+}
+
+.error {
+  margin-top: 1rem;
+  color: #b91c1c;
+  font-weight: 600;
+}
+
+.message {
+  margin-top: 1rem;
+  color: #047857;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .auth-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .create-user-form {
+    grid-template-columns: 1fr;
+  }
+}
