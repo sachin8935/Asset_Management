@@ -92,8 +92,11 @@ Health check route: `GET /health`
 
 - Build command: `pip install -r requirements.txt`
 - Start command: `gunicorn app:app`
+- If you use a Procfile, this repo includes `Procfile` with: `web: gunicorn app:app`
+- Do not use placeholder commands like `gunicorn your_application.wsgi`
 - Required environment variables:
   - `SECRET_KEY`
   - `DATABASE_URL` (Neon/Postgres URL)
   - `CORS_ALLOWED_ORIGINS` (comma-separated, include your Vercel domain)
+    - Example: `https://asset-management-omega-three.vercel.app`
   - `AUTO_BOOTSTRAP_ADMIN=false`
