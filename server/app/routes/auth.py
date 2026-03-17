@@ -1,4 +1,4 @@
-from flask import Blueprint, g, jsonify, request
+from flask import Blueprint, current_app, g, jsonify, request
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from ..auth.constants import FEATURE_ACCESS, ROLES, role_has_feature
@@ -47,6 +47,75 @@ def register_user():
     db.session.commit()
 
     return jsonify({"message": "User registered successfully", "user": user.to_dict()}), 201
+
+
+@auth_bp.post("/bootstrap-admin")
+def bootstrap_admin_user():
+    payload = request.get_json(silent=True) or {}
+
+    required_fields = ["email", "password"]
+    missing = [field for field in required_fields if not payload.get(field)]
+    if missing:
+        return jsonify({"error": f"Missing fields: {', '.join(missing)}"}), 400
+
+    email = (payload.get("email") or "").strip().lower()
+    password = payload.get("password") or ""
+
+    expected_email = current_app.config["ADMIN_BOOTSTRAP_EMAIL"]
+    expected_password = current_app.config["ADMIN_BOOTSTRAP_PASSWORD"]
+
+    if email != expected_email or password != expected_password:
+        return jsonify({"error": "Invalid bootstrap credentials"}), 403
+
+    admin_users = User.query.filter_by(role="Admin").order_by(User.id.asc()).all()
+    if len(admin_users) > 1:
+        return jsonify({"error": "Multiple Admin accounts already exist. Bootstrap is locked."}), 409
+
+    if len(admin_users) == 1:
+        first_admin = admin_users[0]
+        already_initialized = (
+            first_admin.email == expected_email
+            and check_password_hash(first_admin.password, expected_password)
+        )
+        if already_initialized:
+            return jsonify({"message": "Admin already initialized", "user": first_admin.to_dict()}), 200
+
+        first_admin.email = expected_email
+        first_admin.password = generate_password_hash(expected_password)
+        if not first_admin.name:
+            first_admin.name = "Sachin Admin"
+        if not first_admin.department:
+            first_admin.department = "Administration"
+
+        db.session.add(
+            ActivityLog(
+                user_id=first_admin.id,
+                action="Admin credentials initialized via bootstrap",
+            )
+        )
+        db.session.commit()
+
+        return jsonify({"message": "Admin initialized successfully", "user": first_admin.to_dict()}), 200
+
+    user = User(
+        name="Sachin Admin",
+        email=email,
+        password=generate_password_hash(password),
+        role="Admin",
+        department="Administration",
+    )
+    db.session.add(user)
+    db.session.flush()
+
+    db.session.add(
+        ActivityLog(
+            user_id=user.id,
+            action="Admin bootstrapped",
+        )
+    )
+    db.session.commit()
+
+    return jsonify({"message": "Admin created successfully", "user": user.to_dict()}), 201
 
 
 @auth_bp.post("/login")

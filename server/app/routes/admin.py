@@ -82,6 +82,9 @@ def update_user_role(user_id: int):
     if new_role not in ROLES:
         return jsonify({"error": f"Invalid role. Allowed roles: {', '.join(sorted(ROLES))}"}), 400
 
+    if new_role == "Admin":
+        return jsonify({"error": "Creating additional Admin accounts is blocked"}), 403
+
     user = User.query.get(user_id)
     if not user:
         return jsonify({"error": "User not found"}), 404

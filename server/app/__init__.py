@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from sqlalchemy import inspect
 from sqlalchemy.exc import OperationalError
 from werkzeug.exceptions import HTTPException
@@ -11,6 +12,9 @@ from .routes import admin_bp, assets_bp, assignments_bp, auth_bp, dashboard_bp, 
 
 
 def ensure_default_admin(app: Flask) -> None:
+    if not app.config.get("AUTO_BOOTSTRAP_ADMIN", False):
+        return
+
     with app.app_context():
         try:
             inspector = inspect(db.engine)
@@ -40,10 +44,16 @@ def create_app(config_object: type[Config] = Config) -> Flask:
     app = Flask(__name__)
     app.config.from_object(config_object)
 
+    # Enable CORS for all routes
+    CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"], "allow_headers": ["Content-Type", "Authorization"]}})
+
     db.init_app(app)
     migrate.init_app(app, db)
 
     from . import models  # noqa: F401
+    with app.app_context():
+        db.create_all()
+
     app.register_blueprint(auth_bp)
     app.register_blueprint(admin_bp)
     app.register_blueprint(assets_bp)

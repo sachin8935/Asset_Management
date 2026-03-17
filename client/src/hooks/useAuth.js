@@ -13,10 +13,15 @@ export function useAuth() {
   const isAuthenticated = Boolean(token)
   const isAdmin = currentUser?.role === 'Admin'
 
-  const login = async ({ email, password }) => {
+  const login = async ({ email, password, expectedRole }) => {
     setLoading(true)
     try {
       const data = await loginUser({ email, password })
+
+      if (expectedRole && data?.user?.role !== expectedRole) {
+        throw new Error(`This account is registered as ${data?.user?.role}. Please select the correct role.`)
+      }
+
       setToken(data.access_token)
       setCurrentUser(data.user)
       localStorage.setItem('token', data.access_token)
@@ -27,16 +32,17 @@ export function useAuth() {
     }
   }
 
-  const signup = async ({ name, email, password, department }) => {
+  const signup = async (formData) => {
     setLoading(true)
     try {
-      return await registerUser({
-        name,
-        email,
-        password,
-        department,
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+        department: formData.department,
         role: 'Employee',
-      })
+      }
+      return await registerUser(payload)
     } finally {
       setLoading(false)
     }
