@@ -2,6 +2,15 @@ import { useState } from 'react'
 import LoginForm from '../components/LoginForm'
 import StatusMessage from '../components/StatusMessage'
 
+function formatErrorMessage(error) {
+  if (!error) return 'Something went wrong. Please try again.'
+  if (typeof error === 'string') return error
+  if (typeof error.message === 'string' && error.message.trim()) return error.message
+  if (typeof error.error === 'string' && error.error.trim()) return error.error
+
+  return 'Something went wrong. Please try again.'
+}
+
 // ─── Role access guide shown in the left panel ────────────────────────────────
 const ROLE_GUIDE = [
   {
@@ -74,7 +83,7 @@ function LoginPage({ loading, onLogin, onSignup }) {
         setForm(prev => ({ ...prev, name: '', email: '', password: '', department: '', role: 'Employee' }))
       }
     } catch (err) {
-      setError(err.message)
+      setError(formatErrorMessage(err))
     }
   }
 

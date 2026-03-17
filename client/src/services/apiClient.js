@@ -1,5 +1,36 @@
 const DEFAULT_TIMEOUT_MS = 15000
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '')
+const FALLBACK_PROD_API_BASE_URL = 'https://asset-management-utgk.onrender.com'
+
+function resolveApiBaseUrl() {
+  const envBaseUrl = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '')
+  if (envBaseUrl) return envBaseUrl
+
+  if (typeof window !== 'undefined' && window.location.hostname.endsWith('vercel.app')) {
+    return FALLBACK_PROD_API_BASE_URL
+  }
+
+  return ''
+}
+
+const API_BASE_URL = resolveApiBaseUrl()
+
+function normalizeErrorMessage(errorPayload, responseStatus) {
+  if (typeof errorPayload === 'string' && errorPayload.trim()) {
+    return errorPayload
+  }
+
+  if (errorPayload && typeof errorPayload === 'object') {
+    if (typeof errorPayload.message === 'string' && errorPayload.message.trim()) {
+      return errorPayload.message
+    }
+
+    if (typeof errorPayload.error === 'string' && errorPayload.error.trim()) {
+      return errorPayload.error
+    }
+  }
+
+  return `Request failed (${responseStatus})`
+}
 
 function buildUrl(path) {
   if (/^https?:\/\//i.test(path)) return path
@@ -39,7 +70,7 @@ export async function apiRequest(path, options = {}) {
   const data = isJson ? await response.json().catch(() => ({})) : {}
 
   if (!response.ok) {
-    const message = data.error || data.message || `Request failed (${response.status})`
+    const message = normalizeErrorMessage(data?.error || data?.message || data, response.status)
     throw new Error(message)
   }
 
