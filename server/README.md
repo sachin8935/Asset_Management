@@ -98,5 +98,5 @@ Health check route: `GET /health`
   - `SECRET_KEY`
   - `DATABASE_URL` (Neon/Postgres URL)
   - `CORS_ALLOWED_ORIGINS` (comma-separated, include your Vercel domain)
-    - Example: `https://asset-management-omega-three.vercel.app`
+    - Example: `https://asset-management-omega-three.vercel.app,https://asset-management-iy5ewd007-sachin-kumars-projects-3ce091e7.vercel.app`
   - `AUTO_BOOTSTRAP_ADMIN=false`
