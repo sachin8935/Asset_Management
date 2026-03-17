@@ -26,7 +26,32 @@ const GlobalStyles = () => (
       -webkit-font-smoothing: antialiased;
     }
 
-    .ds-display { font-family: 'Syne', sans-serif; }
+    .ds-display,
+    .aas-display,
+    .ais-display,
+    .dss-display,
+    .ims-display,
+    .ris-display,
+    .mhs-display,
+    .maa-display,
+    .ump-display {
+      font-family: 'DM Sans', sans-serif !important;
+      font-stretch: normal;
+      letter-spacing: normal;
+    }
+
+    .aas-btn-primary,
+    .ais-btn-primary,
+    .ims-btn-primary,
+    .ump-btn-primary,
+    .ris-btn-primary,
+    .ds-brand-name,
+    .ds-avatar,
+    .dss-stat-value {
+      font-family: 'DM Sans', sans-serif !important;
+      font-stretch: normal;
+      letter-spacing: normal;
+    }
 
     /* ── Sidebar ── */
     .ds-sidebar {

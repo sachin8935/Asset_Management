@@ -44,8 +44,21 @@ def create_app(config_object: type[Config] = Config) -> Flask:
     app = Flask(__name__)
     app.config.from_object(config_object)
 
-    # Enable CORS for all routes
-    CORS(app, resources={r"/api/*": {"origins": "*", "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"], "allow_headers": ["Content-Type", "Authorization"]}})
+    allowed_origins = [
+        origin.strip()
+        for origin in str(app.config.get("CORS_ALLOWED_ORIGINS", "")).split(",")
+        if origin.strip()
+    ]
+    CORS(
+        app,
+        resources={
+            r"/api/*": {
+                "origins": allowed_origins or "*",
+                "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
+                "allow_headers": ["Content-Type", "Authorization"],
+            }
+        },
+    )
 
     db.init_app(app)
     migrate.init_app(app, db)

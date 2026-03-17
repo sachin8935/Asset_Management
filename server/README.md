@@ -52,12 +52,10 @@ Roles:
 - IT Manager
 - Employee
 
-Default admin bootstrap:
+Admin bootstrap:
 
-- On app startup, if no Admin exists, one default Admin user is created using environment variables:
-  - `DEFAULT_ADMIN_NAME`
-  - `DEFAULT_ADMIN_EMAIL`
-  - `DEFAULT_ADMIN_PASSWORD`
+- Automatic admin bootstrap is disabled by default (`AUTO_BOOTSTRAP_ADMIN=false`).
+- Use `POST /api/auth/bootstrap-admin` for one-time admin initialization.
 
 See full endpoint contracts in `docs/API_CATALOG.md`.
 
@@ -89,3 +87,13 @@ python app.py
 ```
 
 Health check route: `GET /health`
+
+## Deploy on Render
+
+- Build command: `pip install -r requirements.txt`
+- Start command: `gunicorn app:app`
+- Required environment variables:
+  - `SECRET_KEY`
+  - `DATABASE_URL` (Neon/Postgres URL)
+  - `CORS_ALLOWED_ORIGINS` (comma-separated, include your Vercel domain)
+  - `AUTO_BOOTSTRAP_ADMIN=false`

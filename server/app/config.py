@@ -31,3 +31,4 @@ class Config:
     AUTO_BOOTSTRAP_ADMIN = os.getenv("AUTO_BOOTSTRAP_ADMIN", "false").lower() == "true"
     ADMIN_BOOTSTRAP_EMAIL = os.getenv("ADMIN_BOOTSTRAP_EMAIL", "startwithsachin@gmail.com").strip().lower()
     ADMIN_BOOTSTRAP_PASSWORD = os.getenv("ADMIN_BOOTSTRAP_PASSWORD", "admin123")
+    CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "http://127.0.0.1:5173,http://localhost:5173")

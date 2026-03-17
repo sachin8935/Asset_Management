@@ -1,4 +1,11 @@
 const DEFAULT_TIMEOUT_MS = 15000
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '')
+
+function buildUrl(path) {
+  if (/^https?:\/\//i.test(path)) return path
+  if (!API_BASE_URL) return path
+  return `${API_BASE_URL}${path.startsWith('/') ? path : `/${path}`}`
+}
 
 export async function apiRequest(path, options = {}) {
   const controller = new AbortController()
@@ -12,7 +19,7 @@ export async function apiRequest(path, options = {}) {
 
   let response
   try {
-    response = await fetch(path, {
+    response = await fetch(buildUrl(path), {
       ...options,
       headers,
       credentials: 'same-origin',
