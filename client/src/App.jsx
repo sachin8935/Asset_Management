@@ -68,11 +68,12 @@ const GlobalStyles = () => (
       border-bottom: 1px solid rgba(255,255,255,0.07);
     }
     .ds-brand-icon {
-      width: 40px; height: 40px; border-radius: 12px;
-      background: linear-gradient(135deg, #ff6b35, #e8430f);
+      width: 42px; height: 42px; border-radius: 12px;
+      background: transparent;
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 14px rgba(255,107,53,0.45);
+      box-shadow: none;
       margin-bottom: 12px;
+      overflow: hidden;
     }
     .ds-brand-name {
       font-family: 'Syne', sans-serif;
@@ -370,7 +371,11 @@ function AppShell({ currentUser, onLogout, children }) {
           {/* Brand */}
           <div className="ds-sidebar-brand">
             <div className="ds-brand-icon">
-              <Ico d={ICONS.logo} size={20} color="white" sw={0} />
+              <img
+                src="/logo.png"
+                alt="AssetHub logo"
+                style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+              />
             </div>
             <div className="ds-brand-name ds-display">AssetHub</div>
             <div className="ds-brand-sub">Asset Management</div>

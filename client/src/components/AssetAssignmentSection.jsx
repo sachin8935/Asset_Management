@@ -5,9 +5,9 @@ import PaginationControls from './PaginationControls'
 import {
   assignAssetToEmployee,
   fetchAllAssignments,
+  fetchAssignableEmployees,
   returnAssignedAsset,
 } from '../services/assignmentService'
-import { fetchAllUsers } from '../services/adminService'
 
 // ─── Icon helper ──────────────────────────────────────────────────────────────
 const Ico = ({ d, size = 15, color = 'currentColor', sw = 1.8 }) => (
@@ -242,16 +242,19 @@ function AssetAssignmentSection({ token }) {
   // ── same logic as original ───────────────────────────────────────────────
   const loadData = async (nextPage = page) => {
     setLoading(true)
+    setError('')
     try {
       const [assetData, userData, assignmentData] = await Promise.all([
         fetchAssets(token, { page: 1, per_page: 200 }),
-        fetchAllUsers(token, { page: 1, per_page: 200 }),
+        fetchAssignableEmployees(token, { page: 1, per_page: 200 }),
         fetchAllAssignments(token, { page: nextPage, per_page: perPage }),
       ])
       setAssets(assetData.assets || [])
-      setEmployees((userData.users || []).filter(user => user.role === 'Employee'))
+      setEmployees(userData.users || [])
       setAssignments(assignmentData.assignments || [])
       setPagination(assignmentData.pagination || null)
+    } catch (err) {
+      setError(err.message || 'Failed to load assignment data')
     } finally {
       setLoading(false)
     }

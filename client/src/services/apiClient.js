@@ -69,7 +69,10 @@ export async function apiRequest(path, options = {}) {
 
   if (!response.ok) {
     const message = normalizeErrorMessage(data?.error || data?.message || data, response.status)
-    throw new Error(message)
+    const error = new Error(message)
+    error.status = response.status
+    error.payload = data
+    throw error
   }
 
   return data

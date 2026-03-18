@@ -145,6 +145,21 @@ def view_all_assignments():
     )
 
 
+@assignments_bp.get("/employees")
+@jwt_required
+@roles_required("Admin", "IT Manager")
+def list_employees_for_assignment():
+    params = parse_pagination_params()
+    result = (
+        User.query.filter_by(role="Employee")
+        .order_by(User.id.asc())
+        .paginate(page=params.page, per_page=params.per_page, error_out=False)
+    )
+    return jsonify(
+        pagination_response("users", [user.to_dict() for user in result.items], result)
+    )
+
+
 @assignments_bp.get("/employee/<int:employee_id>")
 @jwt_required
 @roles_required("Admin", "IT Manager")
