@@ -1,15 +1,13 @@
 const DEFAULT_TIMEOUT_MS = 15000
-const FALLBACK_PROD_API_BASE_URL = 'https://asset-management-utgk.onrender.com'
+const DEFAULT_DEV_API_BASE_URL = 'http://127.0.0.1:5050'
+const DEFAULT_PROD_API_BASE_URL = 'https://asset-management-utgk.onrender.com'
 
 function resolveApiBaseUrl() {
   const envBaseUrl = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '')
   if (envBaseUrl) return envBaseUrl
 
-  if (typeof window !== 'undefined' && window.location.hostname.endsWith('vercel.app')) {
-    return FALLBACK_PROD_API_BASE_URL
-  }
-
-  return ''
+  if (import.meta.env.DEV) return DEFAULT_DEV_API_BASE_URL
+  return DEFAULT_PROD_API_BASE_URL
 }
 
 const API_BASE_URL = resolveApiBaseUrl()

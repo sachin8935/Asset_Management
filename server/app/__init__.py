@@ -84,6 +84,10 @@ def create_app(config_object: type[Config] = Config) -> Flask:
     def health() -> dict[str, str]:
         return {"status": "ok"}
 
+    @app.get("/api/health")
+    def api_health() -> dict[str, str]:
+        return {"status": "ok"}
+
     @app.after_request
     def add_security_headers(response):
         response.headers["X-Content-Type-Options"] = "nosniff"

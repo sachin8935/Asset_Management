@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Navigate, NavLink, Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, NavLink, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 
 import { useAuth } from './hooks/useAuth'
 import AssetAssignmentPage from './pages/AssetAssignmentPage'
@@ -8,6 +8,7 @@ import DashboardPage from './pages/DashboardPage'
 import EmployeeAssetPage from './pages/EmployeeAssetPage'
 import IssueManagementPage from './pages/IssueManagementPage'
 import IssueReportingPage from './pages/IssueReportingPage'
+import LandingPage from './pages/LandingPage'
 import LoginPage from './pages/LoginPage'
 import UserManagementPage from './pages/UserManagementPage'
 
@@ -324,6 +325,23 @@ function ProtectedRoute({ isAuthenticated, currentUser, allowedRoles, children }
   return children
 }
 
+function PublicLandingRoute({ isAuthenticated, defaultPath }) {
+  const navigate = useNavigate()
+
+  if (isAuthenticated) {
+    return <Navigate to={defaultPath} replace />
+  }
+
+  return (
+    <LandingPage
+      onNavigate={(target) => {
+        const mode = target === 'signup' ? 'signup' : 'login'
+        navigate('/login', { state: { mode } })
+      }}
+    />
+  )
+}
+
 // ─── App shell ────────────────────────────────────────────────────────────────
 function AppShell({ currentUser, onLogout, children }) {
   const location = useLocation()
@@ -441,6 +459,11 @@ function App() {
 
   return (
     <Routes>
+      <Route
+        path="/"
+        element={<PublicLandingRoute isAuthenticated={isAuthenticated} defaultPath={defaultPath} />}
+      />
+
       <Route
         path="/login"
         element={

@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import LoginForm from '../components/LoginForm'
 import StatusMessage from '../components/StatusMessage'
 
@@ -43,7 +44,8 @@ const Feature = ({ text }) => (
 
 // ─── Main page — same props as original ──────────────────────────────────────
 function LoginPage({ loading, onLogin, onSignup }) {
-  const [mode, setMode] = useState('login')
+  const location = useLocation()
+  const [mode, setMode] = useState(location.state?.mode === 'signup' ? 'signup' : 'login')
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
 
@@ -57,6 +59,18 @@ function LoginPage({ loading, onLogin, onSignup }) {
     department: '',
     role: 'Employee',
   })
+
+  useEffect(() => {
+    const requestedMode = location.state?.mode === 'signup' ? 'signup' : 'login'
+    setMode(requestedMode)
+    setError('')
+    setMessage('')
+
+    if (requestedMode === 'signup') {
+      setForm(prev => ({ ...prev, role: 'Employee' }))
+      setActiveRole('employee')
+    }
+  }, [location.state?.mode])
 
   const handleChange = (field, value) => {
     setForm(prev => ({ ...prev, [field]: value }))
